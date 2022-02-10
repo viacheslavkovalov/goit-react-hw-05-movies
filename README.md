@@ -1,4 +1,4 @@
-**Read in other languages: [Русский](README.md), [Polska](README.pl.md).**
+# goit-react-hw-05-movies
 
 # React homework template
 

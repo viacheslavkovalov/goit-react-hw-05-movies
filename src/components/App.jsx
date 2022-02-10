@@ -8,8 +8,8 @@ import MoviesView from '../pages/MoviesView';
 import MovieDatailsView from '../pages/MovieDetailsView';
 import NotFoundView from '../pages/NotFoundView';
 
-import Cast from './Cast/Cast';
-import Reviews from './Reviews/Reviews';
+// import Cast from './Cast/Cast';
+// import Reviews from './Reviews/Reviews';
 
 export const App = () => {
   return (

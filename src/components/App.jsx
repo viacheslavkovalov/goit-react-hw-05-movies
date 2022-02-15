@@ -1,30 +1,37 @@
-import { Routes, Route } from 'react-router-dom';
-import Container from './Container/Container';
+import { Suspense, lazy } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+
 import AppBar from './AppBar/AppBar';
+import LoaderComponent from 'components/Loader/Loader';
 
-import HomeView from '../pages/HomeView';
-import MoviesView from '../pages/MoviesView';
-import MovieDatailsView from '../pages/MovieDetailsView';
-import NotFoundView from '../pages/NotFoundView';
+const HomeView = lazy(() => import('../pages/HomeView'));
+const MoviesView = lazy(() => import('../pages/MoviesView'));
+const MovieDatailsView = lazy(() => import('../pages/MovieDetailsView'));
+// const NotFoundView = lazy(() => import('../pages/NotFoundView'));
 
-// import Cast from './Cast/Cast';
-// import Reviews from './Reviews/Reviews';
+const Cast = lazy(() => import('./Cast/Cast'));
+const Reviews = lazy(() => import('./Reviews/Reviews'));
 
 export const App = () => {
   return (
-    <Container>
+    <>
       <AppBar></AppBar>
-      <Routes>
-        <Route path="/" element={<HomeView />}></Route>
-        <Route path="/movies" element={<MoviesView></MoviesView>}></Route>
-        <Route path="/movies/:movieId" element={<MovieDatailsView />} />
-        {/* <Route path="/cast" element={<Cast></Cast>}></Route> */}
-        {/* <Route path="/reviews " element={<Reviews></Reviews>}></Route>
-        </Route> */}
-        <Route path="*" element={<NotFoundView></NotFoundView>}></Route>
-      </Routes>
+      <Suspense fallback={<LoaderComponent />}>
+        <Routes>
+          <Route path="/" element={<HomeView />}></Route>
+          <Route path="/movies" element={<MoviesView></MoviesView>}></Route>
+          <Route path="/movies/:movieId" element={<MovieDatailsView />}>
+            <Route path="/movies/:movieId/cast" element={<Cast></Cast>}></Route>
+            <Route
+              path="/movies/:movieId/reviews"
+              element={<Reviews></Reviews>}
+            ></Route>
+          </Route>
+          <Route path="*" element={<Navigate replace to="/" />} />
+        </Routes>
+      </Suspense>
       <ToastContainer autoClose={2000} position="top-right" />
-    </Container>
+    </>
   );
 };

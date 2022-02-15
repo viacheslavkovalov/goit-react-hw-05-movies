@@ -1,8 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useParams, Outlet, useLocation } from 'react-router-dom';
 import * as movieApi from '../services/apiService.js';
-import MovieCard from '../components/MovieCard/MovieCard';
-import OnGoBackButton from '../components/ButtonBack/ButtonBack.js';
+import LoaderComponent from 'components/Loader/Loader';
+import { MovieContainer } from '../components/Container/Container';
+import { ReactComponent as UpArrow } from '../images/arrow-top.svg';
+
+const ScrollToTop = lazy(() => import('react-scroll-to-top'));
+const MovieCard = lazy(() => import('../components/MovieCard/MovieCard'));
+const OnGoBackButton = lazy(() =>
+  import('../components/ButtonBack/ButtonBack')
+);
 
 export default function MovieDetailsView() {
   const [film, setFilm] = useState(null);
@@ -10,14 +17,27 @@ export default function MovieDetailsView() {
   const { movieId } = useParams();
 
   useEffect(() => {
-    movieApi.fetchMovieDetails(movieId).then(data => setFilm(data));
+    movieApi.fetchMovieDetails(movieId).then(results => setFilm(results));
   }, [movieId]);
 
   return (
-    <>
-      <OnGoBackButton location={location} />
-      {film && <MovieCard movie={film}></MovieCard>}
-      <Outlet></Outlet>
-    </>
+    <MovieContainer>
+      <Suspense fallback={<LoaderComponent />}>
+        <OnGoBackButton location={location} />
+        {film && <MovieCard movie={film}></MovieCard>}
+        <Outlet></Outlet>
+        <ScrollToTop
+          smooth
+          top={40}
+          style={{
+            boxShadow: 'none',
+            backgroundColor: 'transparent',
+            right: '60px',
+            bottom: '60px',
+          }}
+          component={<UpArrow width={60} height={60} />}
+        />
+      </Suspense>
+    </MovieContainer>
   );
 }

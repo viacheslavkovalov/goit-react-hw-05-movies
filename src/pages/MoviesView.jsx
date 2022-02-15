@@ -1,10 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import * as movieApi from '../services/apiService';
-import SearchBar from '../components/SearchBar/SearchBar.js';
-import MoviesList from '../components/MoviesList/MoviesList';
-import OnGoBackButton from '../components/ButtonBack/ButtonBack.js';
+import LoaderComponent from 'components/Loader/Loader';
+// import SearchBar from '../components/SearchBar/SearchBar.js';
+// import { MovieContainer } from 'components/Container/Container';
+// import MoviesList from '../components/MoviesList/MoviesList';
+// import OnGoBackButton from '../components/ButtonBack/ButtonBack.js';
+
+const SearchBar = lazy(() => import('../components/SearchBar/SearchBar'));
+const MovieContainer = lazy(() =>
+  import('../components/Container/MovieContainer.js')
+);
+const MoviesList = lazy(() => import('../components/MoviesList/MoviesList'));
+const OnGoBackButton = lazy(() =>
+  import('../components/ButtonBack/ButtonBack.js')
+);
 
 export default function MoviesView() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -41,10 +52,13 @@ export default function MoviesView() {
   };
 
   return (
-    <>
-      <OnGoBackButton location={location} />
-      <SearchBar onSubmit={handleFormSubmit} />
-      {searchedFilms && <MoviesList movies={searchedFilms} />}
-    </>
+    <Suspense fallback={<LoaderComponent />}>
+      <SearchBar onSubmit={handleFormSubmit}>
+        <OnGoBackButton style={{ zIndex: '100' }} location={location} />
+      </SearchBar>
+      <MovieContainer>
+        {searchedFilms && <MoviesList movies={searchedFilms} />}
+      </MovieContainer>
+    </Suspense>
   );
 }

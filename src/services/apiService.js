@@ -5,16 +5,18 @@ async function fetchWithErrorHandling(url = '', config = {}) {
   const response = await fetch(url, config);
   return response.ok
     ? await response.json()
-    : Promise.reject(new Error('Not found'));
+    : Promise.reject(new Error('Movie not Found'));
 }
 
 export function fetchTrendingMovies() {
-  return fetchWithErrorHandling(`${BASE_URL}/trending/all/day?api_key=${KEY}`);
+  return fetchWithErrorHandling(
+    `${BASE_URL}/trending/movie/day?api_key=${KEY}`
+  );
 }
 
 export function searchMovies(query) {
   return fetchWithErrorHandling(
-    `${BASE_URL}/search/movie?query=${query}&api_key=${KEY}&include_adult=false`
+    `${BASE_URL}/search/movie?api_key=${KEY}&language=en-US&query=${query}&page=1&include_adult=false`
   );
 }
 

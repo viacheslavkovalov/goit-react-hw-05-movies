@@ -7,6 +7,7 @@ const Div = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 30px;
 `;
 // Styles
 

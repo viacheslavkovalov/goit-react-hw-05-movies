@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { BackButton, LeftArrow } from './ButtonBack.styled';
 
 export default function OnGoBackButton({ location }) {
   const navigate = useNavigate();
@@ -8,8 +10,12 @@ export default function OnGoBackButton({ location }) {
   };
 
   return (
-    <button type="button " onClick={onGoBack}>
-      Go Back
-    </button>
+    <BackButton type="button " onClick={onGoBack}>
+      <LeftArrow />
+    </BackButton>
   );
 }
+
+OnGoBackButton.propTypes = {
+  location: PropTypes.object,
+};

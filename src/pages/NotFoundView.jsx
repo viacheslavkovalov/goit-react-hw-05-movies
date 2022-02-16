@@ -1,5 +1,11 @@
+import { lazy, Suspense } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import LoaderComponent from 'components/Loader/Loader';
 import errorImage from '../images/errorImage.jpg';
+const OnGoBackButton = lazy(() =>
+  import('../components/ButtonBack/ButtonBack')
+);
 
 // Styles
 const Div = styled.div`
@@ -12,9 +18,13 @@ const Div = styled.div`
 // Styles
 
 export default function NotFoundView() {
+  const location = useLocation();
   return (
-    <Div role="error">
-      <img src={errorImage} width="500" alt="error" />
-    </Div>
+    <Suspense fallback={<LoaderComponent />}>
+      <OnGoBackButton location={location} />
+      <Div role="error">
+        <img src={errorImage} width="500" alt="error" />
+      </Div>
+    </Suspense>
   );
 }

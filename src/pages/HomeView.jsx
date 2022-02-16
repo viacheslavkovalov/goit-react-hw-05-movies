@@ -2,10 +2,9 @@ import { useState, useEffect, Suspense, lazy } from 'react';
 import styled from 'styled-components';
 import * as movieApi from '../services/apiService';
 import Container from 'components/Container/Container';
-import LoaderComponent from 'components/Loader/Loader';
 
 const MoviesList = lazy(() => import('../components/MoviesList/MoviesList'));
-
+const LoaderComponent = lazy(() => import('../components/Loader/Loader'));
 const Title = styled.h1`
   font-weight: 700;
   font-size: 36px;

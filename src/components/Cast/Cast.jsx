@@ -46,7 +46,6 @@ export default function Cast() {
         ) : (
           <p>We have no information about it</p>
         )}
-        {}
       </CastList>
     </>
   );

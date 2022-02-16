@@ -3,10 +3,6 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import * as movieApi from '../services/apiService';
 import LoaderComponent from 'components/Loader/Loader';
-// import SearchBar from '../components/SearchBar/SearchBar.js';
-// import { MovieContainer } from 'components/Container/Container';
-// import MoviesList from '../components/MoviesList/MoviesList';
-// import OnGoBackButton from '../components/ButtonBack/ButtonBack.js';
 
 const SearchBar = lazy(() => import('../components/SearchBar/SearchBar'));
 const MovieContainer = lazy(() =>
@@ -53,9 +49,11 @@ export default function MoviesView() {
 
   return (
     <Suspense fallback={<LoaderComponent />}>
-      <SearchBar onSubmit={handleFormSubmit}>
-        <OnGoBackButton style={{ zIndex: '100' }} location={location} />
-      </SearchBar>
+      {searchedFilms && (
+        <SearchBar onSubmit={handleFormSubmit}>
+          <OnGoBackButton style={{ zIndex: '100' }} location={location} />
+        </SearchBar>
+      )}
       <MovieContainer>
         {searchedFilms && <MoviesList movies={searchedFilms} />}
       </MovieContainer>

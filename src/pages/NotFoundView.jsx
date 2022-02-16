@@ -21,10 +21,12 @@ export default function NotFoundView() {
   const location = useLocation();
   return (
     <Suspense fallback={<LoaderComponent />}>
-      <OnGoBackButton location={location} />
-      <Div role="error">
-        <img src={errorImage} width="500" alt="error" />
-      </Div>
+      <div style={{ paddingTop: '30px' }}>
+        <OnGoBackButton location={location} />
+        <Div role="error">
+          <img src={errorImage} width="500" alt="error" />
+        </Div>
+      </div>
     </Suspense>
   );
 }

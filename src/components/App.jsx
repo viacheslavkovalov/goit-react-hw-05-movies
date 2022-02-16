@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import AppBar from './AppBar/AppBar';
-import LoaderComponent from 'components/Loader/Loader';
+import LoaderComponent from './Loader/Loader';
 
 const HomeView = lazy(() => import('../pages/HomeView'));
 const MoviesView = lazy(() => import('../pages/MoviesView'));

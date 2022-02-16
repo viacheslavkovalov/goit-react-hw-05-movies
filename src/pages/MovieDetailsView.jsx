@@ -5,6 +5,7 @@ import LoaderComponent from 'components/Loader/Loader';
 import { MovieContainer } from '../components/Container/Container';
 import { ReactComponent as UpArrow } from '../images/arrow-top.svg';
 
+const NotFoundView = lazy(() => import('./NotFoundView'));
 const ScrollToTop = lazy(() => import('react-scroll-to-top'));
 const MovieCard = lazy(() => import('../components/MovieCard/MovieCard'));
 const OnGoBackButton = lazy(() =>
@@ -23,8 +24,12 @@ export default function MovieDetailsView() {
   return (
     <MovieContainer>
       <Suspense fallback={<LoaderComponent />}>
-        <OnGoBackButton location={location} />
-        {film && <MovieCard movie={film}></MovieCard>}
+        {film && (
+          <>
+            <OnGoBackButton location={location} />
+            <MovieCard movie={film}></MovieCard>
+          </>
+        )}
         <Outlet></Outlet>
         <ScrollToTop
           smooth
@@ -37,6 +42,7 @@ export default function MovieDetailsView() {
           }}
           component={<UpArrow width={60} height={60} />}
         />
+        {film === null && <NotFoundView></NotFoundView>}
       </Suspense>
     </MovieContainer>
   );
